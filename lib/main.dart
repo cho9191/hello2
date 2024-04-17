@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
           margin: const EdgeInsets.all(5),
           //width: MediaQuery.of(context).
-          height: 100,
+          height: 150,
           color: Colors.blue,
           //alignment: Alignment.topRight,
           child: Row(
@@ -92,13 +92,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         margin: const EdgeInsets.all(5),
                         width: 200,
                         height: 40,
-                        color: Colors.deepPurpleAccent,
+                        color: Colors.deepPurpleAccent[100],
                       ),
                       Container(
                         margin: const EdgeInsets.all(5),
                         width: 200,
                         height: 40,
-                        color: Colors.deepPurpleAccent,
+                        color: Colors.amberAccent[100],
                       )
                     ],
                   )
