@@ -36,27 +36,58 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        backgroundColor: Colors.lightGreenAccent,
-        title: Text(widget.title),
-      ),
-      body: ListView(
-        children: [
-          postContainer(),
-          postContainer(),
-          postContainer(),
-          postContainer(),
-          postContainer(),
-          postContainer(),
-          postContainer()
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => print('test'),
-        child: Icon(Icons.access_alarm),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Colors.lightGreenAccent,
+          title: Text(widget.title),
+        ),
+        body:  Column (
+            children: [
+              Container(
+                height: 50,
+                //color: Colors.amberAccent,
+                //color: Colors.amberAccent,
+                child: TextField(
+                  obscureText: false,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '검색',
+                    prefixIcon: Icon(Icons.search),
+                    suffixIcon: Icon(Icons.close), // 뒤쪽 아이콘
+                    fillColor: Colors.deepPurpleAccent, // 채우기 색
+                    filled: true, // 채우기 유무 default = false
+                    //focusedBorder: OutlineInputBorder(), // 활성화 테두리
+                    //enabledBorder: // 비활성화 테두리
+                    //OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                    //labelText: '라벨 텍스트',
+                  ),
 
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    postContainer(),
+                    postContainer(),
+                    postContainer(),
+                    postContainer(),
+                    postContainer(),
+                    postContainer(),
+                    postContainer(),
+                  ],
+                ),
+              )
+            ]
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => print('test'),
+          child: Icon(Icons.access_alarm),
+
+        ),
       ),
     );
   }
