@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +38,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+  //비동기 Json
+  static Future loadJson() async{
+    print("abc");
+    final String response = await rootBundle.loadString("lib/users.json");
+    final data = await jsonDecode(response);
+    print("=======================");
+    print(data);
+    print("=======================");
+    return data['users'];
+  }
+
+  Future<List<dynamic>> getPosts() async {
+    print('test123');
+    final String postsURL = "https://jsonplaceholder.typicode.com/posts";
+    http.Response res = await http.get(Uri.parse(postsURL));
+
+    if(res.statusCode == 200){
+      print('test123456');
+      List<dynamic> body = jsonDecode(res.body);
+
+      print(body);
+
+      return body;
+
+    }else {
+      throw "error";
+    }
+
+  }
+
+  Future userList = loadJson();
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +123,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ]
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => print('test'),
+          //onPressed: () => print('test'),
+          onPressed: getPosts,
           child: Icon(Icons.access_alarm),
 
         ),
       ),
+
     );
+
+
   }
 
   Widget postContainer(){
@@ -110,14 +153,36 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.amber,
                     alignment: Alignment.bottomRight,
                   ),
+
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                        child: FutureBuilder(
+                          future: userList,
+                          builder: (context, snapshot) {
+
+                            print('test123 snapshot : ');
+                            print(snapshot);
+
+                            if(snapshot.hasData){
+                              return Text("${snapshot.data[1]['username']}");
+                            }else if(snapshot.hasError){
+                              return const Center(child: Text("error"));
+
+                            }else{
+                              return const Center(child: CircularProgressIndicator(strokeWidth: 2,));
+                            }
+                          },
+
+                        ),
+                        /*
                         margin: const EdgeInsets.all(5),
                         width: 200,
                         height: 40,
                         color: Colors.deepPurpleAccent,
+                        */
+
                       ),
                       Container(
                         margin: const EdgeInsets.all(5),
